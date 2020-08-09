@@ -1,0 +1,104 @@
+<?php
+$this->headTitle('Новый пользователь');
+
+$this->mainMenu()->setActiveItemId('admin');
+
+$form->get('email')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'name@example.com'
+]);
+
+$form->get('full_name')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Полное имя'
+]);
+
+$form->get('login')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Логин'
+]);
+
+$form->get('status')->setAttributes([
+  'class' => 'custom-select'
+]);
+
+$form->get('password')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите пароль',
+]);
+
+$form->get('confirm_password')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Повторите пароль',
+]);
+
+$form->get('roles')->setAttributes([
+  'class' => 'form-control'
+]);
+
+$form->get('submit')->setAttributes(['class' => 'btn btn-outline-success']);
+
+$form->prepare();
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Новый пользователь</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <?= $this->form()->openTag($form); ?>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('email')); ?>
+      <?= $this->formElement($form->get('email')); ?>
+      <?= $this->formElementErrors($form->get('email')); ?>
+    </div>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('full_name')); ?>
+      <?= $this->formElement($form->get('full_name')); ?>
+      <?= $this->formElementErrors($form->get('full_name')); ?>
+    </div>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('login')); ?>
+      <?= $this->formElement($form->get('login')); ?>
+      <?= $this->formElementErrors($form->get('login')); ?>
+    </div>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('password')); ?>
+      <?= $this->formElement($form->get('password')); ?>
+      <?= $this->formElementErrors($form->get('password')); ?>
+    </div>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('confirm_password')); ?>
+      <?= $this->formElement($form->get('confirm_password')); ?>
+      <?= $this->formElementErrors($form->get('confirm_password')); ?>
+    </div>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('status')); ?>
+      <?= $this->formElement($form->get('status')); ?>
+      <?= $this->formElementErrors($form->get('status')); ?>
+    </div>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('roles')); ?>
+      <?= $this->formElement($form->get('roles')); ?>
+      <?= $this->formElementErrors($form->get('roles')); ?>
+    </div>
+
+    <?= $this->formElement($form->get('submit')); ?>
+    <a href="<?= $this->url('users') ?>" class="btn btn-link">Отмена</a>
+
+    <?= $this->form()->closeTag(); ?>
+  </div>
+</div>   
+

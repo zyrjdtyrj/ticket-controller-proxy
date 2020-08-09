@@ -1,0 +1,133 @@
+<?php
+$this->headTitle('Список');
+
+$this->mainMenu()->setActiveItemId('list');
+
+$searchForm->get('search')->setAttributes([
+  'class'       => 'form-control',
+  'placeholder' => 'Поиск'
+]);
+
+$searchForm->get('filter')->setAttributes([
+  'class'       => 'custom-select',
+]);
+
+$searchForm->get('submit')->setAttributes([
+  'class'       => 'btn-lg btn-success'
+]);
+
+$searchForm->prepare();
+?>
+<div class="page-header">
+  <div class="row">
+    <div class="col">
+      <h2><?php echo $eventName; ?>: Список</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-bottom: 20px;">
+  <div class="col">
+    <?php echo $this->form()->openTag($searchForm); ?>
+
+    <div class="form-group">
+      <?php echo $this->formElement($searchForm->get('search')); ?>
+      <?php echo $this->formElementErrors($searchForm->get('search')); ?>
+    </div>
+
+    <div class="form-group" style="display: none;">
+      <?php echo $this->formElement($searchForm->get('filter')); ?>
+      <?php echo $this->formElementErrors($searchForm->get('filter')); ?>
+    </div>
+
+    <?php echo $this->formElement($searchForm->get('submit')); ?>
+
+    <?php echo $this->form()->closeTag(); ?>
+  </div>
+</div>
+
+<?php foreach ($ticketList as $ticket) { ?>
+<div class="card border-secondary mb-3" data-ticketid="<?php echo str_pad($ticket->getId(), 8, '0', STR_PAD_LEFT); ?>">
+  <div class="card-header"><b><?php echo $ticket->getLastName() .' '. $ticket->getFirstName(); ?></b></div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">Город: <b><?php echo $ticket->getCity(); ?></b></div>
+      <div class="col-6">Заказ: <b><?php echo $ticket->getOnumber(); ?></b></div>
+      <div class="col-6">Телефон: <b><?php echo $ticket->getPhone(); ?></b></div>
+      <div class="col-6">Идентификатор: <b><?php echo str_pad($ticket->getId(), 8, '0', STR_PAD_LEFT); ?></b></div>
+      <div class="col-6">Тип: <b><?php echo $ticket->getType() ?></b></div>
+      <div class="col-12">
+        <?php
+        if (1 == $ticketManager->getTicketUsed($ticket->getId())) {
+          echo '<span style="color: green; font-weight: bold;">Зарегистрирован '. date('d.m.Y H:i:s', $ticketManager->getTicketUsedDate($ticket->getId())) .' '. $historyManager->getTerminal($ticket->getId()) .'</span>';
+        } else {
+          echo '<span style="color: red; font-weight: bold;">Регистрации нет</span>';
+        }
+        ?>
+      </div>
+    </div>
+  </div>
+</div>
+<?php } ?>
+
+  <?php
+  if (sizeof($ticketList)) {
+    echo $this->paginationControl(
+      $ticketList,
+      'Sliding',
+      'application/partial/paginator',
+      ['route' => 'list', 'search' => $search]
+    );
+  }
+  ?>
+
+<div style="display: none">
+  <div id="ticketView" title="Билет"></div>
+</div>
+<script type="text/javascript">
+  /*
+  $(function () {
+    let ticketId = null;
+
+    let opt = {
+      modal: true,
+      autoOpen: false,
+      draggable: false,
+      resizable: false,
+      position: { my: "center", at: "center"},
+      minWidth: 600,
+      show: {
+        effect: 'scale',
+        duration: 300
+      },
+      hide: {
+        effect: 'scale',
+        duration: 300
+      },
+      open: function () {
+        $('#ticketView').dialog('option', 'title', 'Билет #' + ticketId);
+        $('#ticketView').html('Загрузка билета #' + ticketId);
+
+        $.post(
+          '/view/'+ ticketId,
+          {},
+          function (response) {
+            $('#ticketView').html(response);
+          },
+          'html'
+        );
+      },
+      close: function () {
+        $('#ticketView').html('');
+      }
+    };
+
+    $('.card').on('click', function () {
+      ticketId = $(this).data('ticketid');
+
+      if (ticketId) {
+        $('#ticketView').dialog(opt).dialog('open');
+      }
+    });
+  });*/
+</script>

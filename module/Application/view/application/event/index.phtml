@@ -1,0 +1,52 @@
+<?php
+  $this->headTitle('События');
+
+$this->mainMenu()->setActiveItemId('event');
+
+?>
+  <div class="page-header">
+    <div class="row">
+      <div class="col-lg-8 col-md-7 col-sm-6">
+          <h2>События</h2>
+      </div>
+    </div>
+  </div>
+
+<?= $this->flashMessenger()->render('error', ['alert', 'alert-warning']); ?>
+<?= $this->flashMessenger()->render('success', ['alert', 'alert-success']); ?>
+<?= $this->flashMessenger()->render('info', ['alert', 'alert-info']); ?>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Наименование</th>
+    <th>Даты проведения</th>
+    <th>Устройств</th>
+    <th>Билетов</th>
+    <?php if ($rbacManager->isGranted(null, 'event.manage')) { ?>
+    <th></th>
+    <?php } ?>
+  </tr>
+  </thead>
+  <tbody>
+  <?php foreach ($events as $event) { ?>
+  <tr>
+    <td><?php echo $event['eventId']; ?></td>
+    <td><b><?php echo $event['name'] ?></b></td>
+    <td><?php echo $event['dateBegin'] .' '. $event['dateEnd'] ?></td>
+    <td><a href="<?php echo $this->url('device', ['action' => 'index', 'id' => $event['eventId']]); ?>"><?php echo $event['deviceCount'] ?></a></td>
+    <td><?php echo $event['ticketCount'] ?></td>
+    <?php if ($rbacManager->isGranted(null, 'event.manage')) { ?>
+    <td>
+      <?php if ($rbacManager->isGranted(null, 'event_'. $event['eventId'] .'_'. $this->iniParManager->get('server'))) { ?>
+      <a class="btn btn-outline-warning" href="<?php echo $this->url('event', ['action' => 'edit', 'eventId' => $event['eventId']]); ?>" onclick="if (confirm('Вы действительно хотите редактировать событие?')) { return true } else { return false }">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </a>
+      <?php } ?>
+    </td>
+    <?php } ?>
+  </tr>
+  <?php } ?>
+  </tbody>
+</table>

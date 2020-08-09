@@ -1,0 +1,41 @@
+<?php
+$this->headTitle('Профиль');
+
+$this->mainMenu()->setActiveItemId('logout');
+
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h2>Профиль</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th>ID:</th>
+        <td>
+        <?= $this->escapeHtml($user->getId()) ?></th>
+      </tr>
+      <tr>
+        <th>E-mail:</th>
+        <td>
+        <?= $this->escapeHtml($user->getEmail()) ?></th>
+      </tr>
+      <tr>
+        <th>Full Name:</th>
+        <td>
+        <?= $this->escapeHtml($user->getFullName()) ?></th>
+      </tr>
+      <tr>
+        <th>Date Created:</th>
+        <td>
+        <?= $this->escapeHtml($user->getDateCreated()) ?></th>
+      </tr>
+    </table>
+  </div>
+</div>

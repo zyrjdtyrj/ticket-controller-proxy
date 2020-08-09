@@ -1,0 +1,52 @@
+<?php
+$this->headTitle('Редактирование сервера');
+
+$this->mainMenu()->setActiveItemId('server');
+
+$form->get('name')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите наименование сервера'
+]);
+
+$form->get('address')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите адрес сервера'
+]);
+
+$form->get('submit')->setAttributes(['class' => 'btn btn-outline-success'])->setValue('Сохранить');
+
+$form->prepare();
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Редактирование сервера</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <?php echo $this->form()->openTag($form); ?>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('name')); ?>
+      <?php echo $this->formElement($form->get('name')); ?>
+      <?php echo $this->formElementErrors($form->get('name')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('address')); ?>
+      <?php echo $this->formElement($form->get('address')); ?>
+      <?php echo $this->formElementErrors($form->get('address')); ?>
+    </div>
+
+    <?php echo $this->formElement($form->get('csrf')); ?>
+
+    <?php echo $this->formElement($form->get('submit')); ?>
+    <a href="<?= $this->url('server', ['action' => 'index']) ?>" class="btn btn-link">Отмена</a>
+
+    <?php echo $this->form()->closeTag(); ?>
+  </div>
+</div>

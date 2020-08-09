@@ -1,0 +1,56 @@
+<?php
+$this->headTitle('История');
+
+$this->mainMenu()->setActiveItemId('device');
+
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col">
+      <h2>История</h2>
+    </div>
+  </div>
+</div>
+<?php
+/**
+ * @var \Application\Entity\Ticket $ticket
+ */
+?>
+<?php foreach ($historyList as $history) { ?>
+  <?php $ticket = $ticketManager->getTicket($history->getTicketId()); ?>
+  <div class="card border-secondary mb-3" data-ticketid="<?php echo str_pad($history->getTicketId(), 8, '0', STR_PAD_LEFT); ?>">
+    <div class="card-header"><b><?php echo $ticket->getFio(); ?></b></div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-6">Город: <b><?php echo $ticket->getCity(); ?></b></div>
+        <div class="col-6">Заказ: <b><?php echo $ticket->getOnumber(); ?></b></div>
+        <div class="col-6">Телефон: <b><?php echo $ticket->getPhone(); ?></b></div>
+        <div class="col-6">Идентификатор: <b><?php echo str_pad($history->getTicketId(), 8, '0', STR_PAD_LEFT); ?></b></div>
+        <div class="col-12">
+          <?php
+          if ('IN' == $history->getStatus()) {
+            echo '<span style="color: green; font-weight: bold;">Вход '. date('d.m.Y H:i:s', $history->getDate()) .'</span>';
+          } else {
+            echo '<span style="color: red; font-weight: bold;">Выход '. date('d.m.Y H:i:s', $history->getDate()) .'</span>';
+          }
+          ?>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php } ?>
+
+<?php
+if (sizeof($historyList)) {
+  echo $this->paginationControl(
+    $historyList,
+    'Sliding',
+    'application/partial/paginator',
+    [
+      'route'   => 'device',
+      'action'  => 'history',
+      'device'  => 'T1',
+    ]
+  );
+}

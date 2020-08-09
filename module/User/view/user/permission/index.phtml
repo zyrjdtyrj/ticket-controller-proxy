@@ -1,0 +1,72 @@
+<?php
+$this->headTitle('Permissions');
+
+$this->mainMenu()->setActiveItemId('admin');
+
+?>
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Разрешения</h1>
+    </div>
+  </div>
+</div>
+
+<?= $this->flashMessenger()->render('error', ['alert', 'alert-warning', 'alert-dismissible']); ?>
+<?= $this->flashMessenger()->render('success', ['alert', 'alert-success', 'alert-dismissible']); ?>
+<?= $this->flashMessenger()->render('info', ['alert', 'alert-info', 'alert-dismissible']); ?>
+
+<p>
+  <a class="btn btn-outline-success" href="
+    <?= $this->url('permissions', ['action' => 'add']); ?>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Новое разрешение
+  </a>
+</p>
+
+<table class="table table-striped">
+
+  <tr>
+    <th>ID</th>
+    <th>Наименование</th>
+    <th>Описание</th>
+    <th>Дата создания</th>
+    <th></th>
+  </tr>
+
+  <?php foreach ($permissions as $permission) { ?>
+
+    <tr>
+      <td><?= $this->escapeHtml($permission->getId()); ?></td>
+      <td>
+        <a href="<?= $this->url('permissions', ['action' => 'view', 'id' => $permission->getId()]); ?>">
+          <?= $this->escapeHtml($permission->getName()); ?>
+        </a>
+      </td>
+      <td><?= $this->escapeHtml($permission->getDescription()); ?></a>
+      </td>
+      <td>
+        <nobr><?= $this->escapeHtml($permission->getDateCreated()); ?></nobr>
+      </td>
+      <td>
+        <nobr>
+          <a class="btn btn-outline-warning"
+             href="<?= $this->url('permissions', ['action' => 'edit', 'id' => $permission->getId()]); ?>"
+             onclick="if (confirm('Вы действительно хотите изменить разрешение?')) { return true; } else { return false; }"
+             title="редактировать">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+          <a class="btn btn-outline-danger"
+             href="<?= $this->url('permissions', ['action' => 'delete', 'id' => $permission->getId()]); ?>"
+             onclick="if (confirm('Вы действительно хотите удалить разрешение?')) { return true; } else { return false; }"
+             title="удалить">
+            <span class="glyphicon glyphicon-remove"></span>
+          </a>
+        </nobr>
+      </td>
+    </tr>
+
+  <?php } ?>
+
+</table>
+
+

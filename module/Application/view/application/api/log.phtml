@@ -1,0 +1,53 @@
+<?php
+$this->headTitle('Журнал использования API');
+
+$this->mainMenu()->setActiveItemId('api');
+
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col">
+      <h2>Журнал использования API</h2>
+    </div>
+  </div>
+</div>
+<hr/>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Время</th>
+    <th>Устройство</th>
+    <th>IP-адрес</th>
+    <th>Метод</th>
+  </tr>
+  </thead>
+  <tbody>
+  <?php
+  /**
+   * @var \Application\Entity\Log $history
+   */
+  ?>
+  <?php foreach ($historyList as $history) { ?>
+  <tr>
+    <td><?php echo date('H:i:s d.m.Y', $history->getDate()); ?></td>
+    <td><?php echo $history->getDevice(); ?></td>
+    <td><?php echo $history->getIp(); ?></td>
+    <td><?php echo $history->getMethod(); ?></td>
+  </tr>
+  <?php } ?>
+  </tbody>
+</table>
+
+<?php
+if (sizeof($historyList)) {
+  echo $this->paginationControl(
+    $historyList,
+    'Sliding',
+    'application/partial/paginator',
+    [
+      'route'   => 'apiLog',
+    ]
+  );
+}

@@ -1,0 +1,55 @@
+<?php
+$this->headTitle('Создание разрешения');
+
+$this->mainMenu()->setActiveItemId('admin');
+
+$form->get('name')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите наименование'
+]);
+
+$form->get('description')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите описание'
+]);
+
+$form->get('submit')->setAttributes(['class' => 'btn btn-outline-success']);
+
+$form->prepare();
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Создание нового разрешения</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <?= $this->form()->openTag($form); ?>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('name')); ?>
+      <?= $this->formElement($form->get('name')); ?>
+      <?= $this->formElementErrors($form->get('name')); ?>
+    </div>
+
+    <div class="form-group">
+      <?= $this->formLabel($form->get('description')); ?>
+      <?= $this->formElement($form->get('description')); ?>
+      <?= $this->formElementErrors($form->get('description')); ?>
+    </div>
+
+    <?= $this->formElement($form->get('csrf')); ?>
+
+    <?= $this->formElement($form->get('submit')); ?>
+    <a href="<?= $this->url('permissions') ?>" class="btn btn-link">Отмена</a>
+
+    <?= $this->form()->closeTag(); ?>
+  </div>
+</div>   
+
+
+

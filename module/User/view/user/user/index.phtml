@@ -1,0 +1,68 @@
+<?php
+$this->headTitle('Пользователи');
+
+$this->mainMenu()->setActiveItemId('admin');
+
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Пользователи</h1>
+    </div>
+  </div>
+</div>
+
+<p>
+<a class="btn btn-outline-success" href="
+    <?= $this->url('users', ['action'=>'add']); ?>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить
+</a>
+</p>
+
+<table class="table table-striped">
+
+   <tr>
+        <th>ID</th>
+        <th>E-mail</th>
+        <th>Полное имя</th>
+        <th>Роль</th>
+        <th>Дата создания</th>
+        <th>Статус</th>
+        <th></th>
+    </tr>
+    
+    <?php foreach ($users as $user): ?>
+    
+    <tr>
+        <td><?= $this->escapeHtml($user->getId()); ?></td>
+        <td>
+            <a href="<?= $this->url('users', ['action'=>'view', 'id'=>$user->getId()]); ?>">
+                <?= $this->escapeHtml($user->getEmail()); ?>
+            </a> 
+        </td>
+        <td>
+            <?= $this->escapeHtml($user->getFullName()); ?></a> 
+        </td>
+        <td>
+            <?= $this->escapeHtml($user->getRolesAsString()); ?></a> 
+        </td>
+        <td><nobr><?= $this->escapeHtml($user->getDateCreated()); ?></nobr></td>        
+        <td><?= $this->escapeHtml($user->getStatusAsString()); ?></td>
+        <td>
+            <a class="btn btn-outline-warning"
+               href="<?= $this->url('users', ['action'=>'edit', 'id'=>$user->getId()]); ?>"
+               onclick="if(confirm('Вы действительно хотите редактировать пользователя?')) { return true } else { return false }"
+               title="Редактирование пользователя">
+                <span class="glyphicon glyphicon-pencil" ></span>
+            </a>
+            <a class="btn btn-outline-danger" href="<?= $this->url('users', ['action'=>'change-password', 'id'=>$user->getId()]); ?>" onclick="if(confirm('Вы действительно хотите изменить пароль у пользователя?')) { return true } else { return false }" title="Смнеа пароля пользователя">
+                <span class="glyphicon glyphicon-asterisk"></span>
+            </a>
+        </td>    
+    </tr>
+        
+    <?php endforeach; ?>   
+    
+</table>
+

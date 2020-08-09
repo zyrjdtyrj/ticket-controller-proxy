@@ -1,0 +1,4 @@
+name: Doctrine Database Migrations
+migrations_namespace: Migrations
+table_name: migration
+migrations_directory: data/Migrations

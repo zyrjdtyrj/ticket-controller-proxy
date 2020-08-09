@@ -1,0 +1,75 @@
+<?php
+$this->headTitle('Устройства');
+
+$this->mainMenu()->setActiveItemId('device');
+
+?>
+  <div class="page-header">
+    <div class="row">
+      <div class="col-lg-8 col-md-7 col-sm-6">
+        <h2>Устройства</h2>
+      </div>
+    </div>
+  </div>
+
+<?= $this->flashMessenger()->render('error', ['alert', 'alert-warning']); ?>
+<?= $this->flashMessenger()->render('success', ['alert', 'alert-success']); ?>
+<?= $this->flashMessenger()->render('info', ['alert', 'alert-info']); ?>
+
+<?php if ($rbacManager->isGranted(null, 'device.manage')) { ?>
+<p>
+  <a class="btn btn-outline-success" href="
+    <?= $this->url('device', ['action' => 'add', 'id' => $eventId]); ?>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Новое устройство
+  </a>
+</p>
+<?php } ?>
+
+<?php foreach ($deviceList as $event) { ?>
+<div class="row">
+  <div class="col-12">
+    <div class="card border-secondary mb-3">
+      <div class="card-header">
+        <?php echo $event['name'] ?>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <th>ID</th>
+              <th>Имя</th>
+              <th>Группы обслуживания</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <?php foreach ($event['devices'] as $device) { ?>
+            <tr>
+              <td><?php echo $this->escapeHtml($device['id']); ?></td>
+              <td><?php echo $this->escapeHtml($device['name']); ?></td>
+              <td><?php echo $this->escapeHtml($device['groups']); ?></td>
+              <td>
+                <a href="<?php echo $this->url('device', ['action' => 'history'], ['query' => ['device' => $device['name']]]); ?>" class="btn btn-outline-info">
+                  история
+                </a>
+              </td>
+              <td>
+                <nobr>
+                  <a class="btn btn-outline-warning" href="<?php echo $this->url('device', ['action' => 'edit', 'id' => $device['id']]); ?>" onclick="if(confirm('Вы действительно хотите редактировать устройство?')) { return true } else { return false }">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </a>
+                  <!--<a class="btn btn-outline-danger" href="<?php echo $this->url('device', ['action' => 'delete', 'id' => $device['id']]); ?>" onclick="if(confirm('Вы действительно хотите удалить устройство?')) { return true } else { return false }">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>-->
+                </nobr>
+              </td>
+            </tr>
+
+            <?php } ?>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<?php } ?>

@@ -1,0 +1,198 @@
+<?php
+/**
+ * @var \User\Service\RbacManager           $rbacManager
+ * @var \Application\Service\IniparManager  $iniParManager
+ */
+
+$this->headTitle('Настройки');
+
+$this->mainMenu()->setActiveItemId('settings');
+
+?>
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h2>Настройки</h2>
+    </div>
+  </div>
+</div>
+
+<?= $this->flashMessenger()->render('error', ['alert', 'alert-warning']); ?>
+<?= $this->flashMessenger()->render('success', ['alert', 'alert-success']); ?>
+<?= $this->flashMessenger()->render('info', ['alert', 'alert-info']); ?>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card border-secondary mb-3">
+      <div class="card-header">
+        Системные настройки
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <form method="post" action="<?php echo $this->url('settings', ['action' => 'edit']); ?>">
+            <table class="table table-striped">
+              <tr>
+                <th colspan="2">
+                  Режим работы прокси-сервера
+                </th>
+              </tr>
+              <tr>
+                <td>Текущий режим:</td>
+                <td>
+                  <select name="proxyMode" class="custom-select">
+                    <option value="online" style="background-color: green;"<?php echo ('online' == $this->iniParManager->get('proxyMode', 'online')) ? ' selected' : ''; ?>>ONLINE</option>
+                    <option value="proxy" style="background-color: yellow;"<?php echo ('proxy' == $this->iniParManager->get('proxyMode', 'online')) ? ' selected' : ''; ?>>PROXY</option>
+                    <option value="offline" style="background-color: red;"<?php echo ('offline' == $this->iniParManager->get('proxyMode', 'online')) ? ' selected' : ''; ?>>OFFLINE</option>
+                  </select>
+                  <div style="color: maroon; font-size: small;"><b>Внимание!</b> При переходе из режима OFFLINE в любой другой режим, будет произведена синхронизация билетов с билетным сервером.</div>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="2">
+                  Конфигурация сервера
+                </th>
+              </tr>
+              <tr>
+                <td>Идентификатор прокси-сервера:</td>
+                <td>
+                  <input type="text" class="form-control" name="proxyId" value="<?php echo $this->iniParManager->get('serverId', 'PROXY'); ?>">
+                </td>
+              </tr>
+              <tr>
+                <td>Адрес основного сервера:</td>
+                <td>
+                  <select name="server" id="serverAddress" class="custom-select" onchange="changeAddress();">
+                    <option value="0">Выберите...</option>
+                    <?php foreach ($serverList as $serverId => $serverPar) { ?>
+                    <option value="<?php echo $serverId; ?>"<?php echo ($serverId == $this->iniParManager->get('server', 0)) ? ' selected' : '' ?> data-address="<?php echo $serverPar['address'] ?>"><?php echo $serverPar['name']; ?></option>
+                    <?php } ?>
+                  </select>
+                  <div style="font-size: small;" id="serverAddressView"><?php echo $serverAddress; ?></div>
+                  <script type="text/javascript">
+                    function changeAddress() {
+                      let address = $('#serverAddress option:selected').data('address');
+
+                      $('#serverAddressView').html(address);
+                    }
+                  </script>
+                </td>
+              </tr>
+              <tr>
+                <td>Текущее событие</td>
+                <td>
+                  <input type="text" class="form-control" name="eventId" value="<?php echo $this->iniParManager->get('eventId', ''); ?>" />
+                </td>
+              </tr>
+            </table>
+            <div style="text-align: right;">
+              <button type="submit" class="btn btn-outline-success">Сохранить</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card border-secondary mb-3">
+      <div class="card-header">
+        Синхронизация
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <th>Объект</th>
+              <th>Последняя синхронизация</th>
+              <th>Действие</th>
+            </tr>
+            <tr>
+              <td>События</td>
+              <td><?php echo $lastEventSyncTime; ?></td>
+              <td>
+                <a href="<?php echo $this->url('settings', ['action' => 'synchronization', 'param' => 'event']) ?>" class="btn btn-outline-success">Выполнить</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card border-secondary mb-3">
+      <div class="card-header">
+        События
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th rowspan="2">#</th>
+              <th rowspan="2">Название</th>
+              <th rowspan="2">Даты проведения</th>
+              <th rowspan="2">Группы доступа</th>
+              <th colspan="3">Устройства</th>
+              <th colspan="3">Билеты</th>
+            </tr>
+            <tr>
+              <th>Кол-во</th>
+              <th>Время</th>
+              <th></th>
+              <th>Кол-во</th>
+              <th>Время</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            /**
+             * @var \Application\Entity\Event $event
+             */
+            foreach ($eventList as $event) {
+            ?>
+            <tr>
+              <td><?php echo $event['eventId']; ?></td>
+              <td><b><?php echo $event['name']; ?></b></td>
+              <td>
+                <?php
+                echo $event['dateBegin'] .' '. $event['dateEnd'];
+                ?>
+              </td>
+              <td>
+                <?php
+                $groupList = [];
+                foreach ($event['groups'] as $group) {
+                  $groupList[] = '<span>'. $group['name'] .'</span>';
+                }
+                echo implode(', ', $groupList);
+                ?>
+              </td>
+              <td><a href="<?php echo $this->url('device', ['action' => 'index', 'id' => $event['eventId']]); ?>"><?php echo $event['deviceCount'] ?></a></td>
+              <td><?php echo $event['synDeviceTime'] ?></td>
+              <td>
+                <?php if ($rbacManager->isGranted(null, 'event_'. $event['eventId'] .'_'. $this->iniParManager->get('server'))) { ?>
+                <a href="<?php echo $this->url('settings', ['action' => 'synchronization', 'param' => 'device', 'eventId' => $event['eventId']]) ?>" class="btn btn-outline-info"><span class="glyphicon glyphicon-refresh"></span></a>
+                <?php } ?>
+              </td>
+              <td><?php echo $event['ticketCount'] ?></td>
+              <td><?php echo $event['synTicketTime'] ?></td>
+              <td>
+                <?php if ($rbacManager->isGranted(null, 'event_'. $event['eventId'] .'_'. $this->iniParManager->get('server'))) { ?>
+                <a href="<?php echo $this->url('settings', ['action' => 'synchronization', 'param' => 'ticket', 'eventId' => $event['eventId']]) ?>" class="btn btn-outline-info"><span class="glyphicon glyphicon-refresh"></span></a>
+                <?php } ?>
+              </td>
+            </tr>
+            <?php } ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

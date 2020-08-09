@@ -1,0 +1,76 @@
+<?php
+$this->headTitle('Редактирование устройства');
+
+$this->mainMenu()->setActiveItemId('device');
+
+$form->get('id')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите идентификатор устройства',
+  'disabled'    => true,
+]);
+
+$form->get('name')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите наименование устройства',
+  'disabled'    => true,
+]);
+
+$form->get('eventId')->setAttributes([
+  'class'       => 'form-control',
+  'disabled'    => true,
+]);
+
+$form->get('groups')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите группы обслуживания устройством'
+]);
+
+$form->get('submit')->setAttributes(['class' => 'btn btn-outline-success'])->setValue('Сохранить');
+
+$form->prepare();
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Редактирование устройства</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <?php echo $this->form()->openTag($form); ?>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('id')); ?>
+      <?php echo $this->formElement($form->get('id')); ?>
+      <?php echo $this->formElementErrors($form->get('id')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('name')); ?>
+      <?php echo $this->formElement($form->get('name')); ?>
+      <?php echo $this->formElementErrors($form->get('name')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('eventId')); ?>
+      <?php echo $this->formElement($form->get('eventId')); ?>
+      <?php echo $this->formElementErrors($form->get('eventId')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('groups')); ?>
+      <?php echo $this->formElement($form->get('groups')); ?>
+      <?php echo $this->formElementErrors($form->get('groups')); ?>
+    </div>
+
+    <?php echo $this->formElement($form->get('csrf')); ?>
+
+    <?php echo $this->formElement($form->get('submit')); ?>
+    <a href="<?= $this->url('device', ['action' => 'index', 'id' => $id]) ?>" class="btn btn-link">Отмена</a>
+
+    <?php echo $this->form()->closeTag(); ?>
+  </div>
+</div>

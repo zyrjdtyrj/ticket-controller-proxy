@@ -1,0 +1,53 @@
+<?php
+$this->headTitle('Вход');
+
+$this->mainMenu()->setActiveItemId('login');
+
+$form->get('login')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Логин',
+  'required' => true,
+  'autofocus' => true
+])->setLabelAttributes([
+  'class' => 'sr-only'
+]);
+
+$form->get('password')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Пароль',
+  'required' => false,
+])->setLabelAttributes([
+  'class' => 'sr-only'
+]);
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Авторизация</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-offset-4 col-md-3">
+    <form class="form-signin" method="post">
+      <?php if ($isLoginError): ?>
+        <div class="alert alert-danger" role="alert">
+          Incorrect login and/or password.
+        </div>
+      <?php endif; ?>
+      <div class="form-group">
+        <?= $this->formLabel($form->get('login')); ?>
+        <?= $this->formElement($form->get('login')); ?>
+      </div>
+      <div class="form-group">
+        <?= $this->formLabel($form->get('password')); ?>
+        <?= $this->formElement($form->get('password')); ?>
+      </div>
+      <?= $this->formElement($form->get('redirect_url')); ?>
+      <?= $this->formElement($form->get('csrf')) ?>
+      <button class="btn btn-outline-success" type="submit">Вход</button>
+    </form>
+  </div>
+</div>

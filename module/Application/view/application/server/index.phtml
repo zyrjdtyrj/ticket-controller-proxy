@@ -1,0 +1,61 @@
+<?php
+/**
+ * @var \User\Service\RbacManager   $rbacManager
+ * @var \Application\Entity\Server  $server
+ */
+
+$this->headTitle('Серверы');
+
+$this->mainMenu()->setActiveItemId('server');
+
+?>
+  <div class="page-header">
+    <div class="row">
+      <div class="col-lg-8 col-md-7 col-sm-6">
+        <h2>Серверы</h2>
+      </div>
+    </div>
+  </div>
+
+<?= $this->flashMessenger()->render('error', ['alert', 'alert-warning']); ?>
+<?= $this->flashMessenger()->render('success', ['alert', 'alert-success']); ?>
+<?= $this->flashMessenger()->render('info', ['alert', 'alert-info']); ?>
+
+<p>
+  <a class="btn btn-outline-success" href="
+    <?= $this->url('server', ['action' => 'add']); ?>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Новый сервер
+  </a>
+</p>
+
+<div class="row">
+  <div class="col-12">
+    <table class="table table-striped">
+      <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Адрес</th>
+        <th></th>
+      </tr>
+      <?php foreach ($serverList as $server) { ?>
+        <tr>
+          <td><?php echo $this->escapeHtml($server->getId()); ?></td>
+          <td<?php if ($serverId == $server->getId()) echo ' style="font-weight: bold;"'; ?>><?php echo $this->escapeHtml($server->getName()); ?></td>
+          <td><?php echo $this->escapeHtml($server->getAddress()); ?></td>
+          <td>
+            <nobr>
+              <a class="btn btn-outline-warning" href="<?php echo $this->url('server', ['action' => 'edit', 'id' => $server->getId()]); ?>" onclick="if(confirm('Вы действительно хотите редактировать сервер?')) { return true } else { return false }">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </a>
+              <a class="btn btn-outline-danger" href="<?php echo $this->url('server', ['action' => 'delete', 'id' => $server->getId()]); ?>" onclick="if(confirm('Вы действительно хотите удалить сервер?')) { return true } else { return false }">
+            <span class="glyphicon glyphicon-remove"></span>
+          </a>
+            </nobr>
+          </td>
+        </tr>
+
+      <?php } ?>
+
+    </table>
+  </div>
+</div>

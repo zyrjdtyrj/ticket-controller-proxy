@@ -1,0 +1,76 @@
+<?php
+$this->headTitle('Редактирование события');
+
+$this->mainMenu()->setActiveItemId('event');
+
+$form->get('id')->setAttributes([
+  'class'       => 'form-control',
+  'placeholder' => 'Идентификатор события',
+  'readonly'    => true,
+]);
+
+$form->get('name')->setAttributes([
+  'class'       => 'form-control',
+  'placeholder' => 'Наименование события',
+  'readonly'    => true,
+]);
+
+$form->get('date_begin')->setAttributes([
+  'class'       => 'form-control',
+  'placeholder' => 'Дата начала',
+]);
+
+$form->get('date_end')->setAttributes([
+  'class'       => 'form-control',
+  'placeholder' => 'Дата окончания',
+]);
+
+$form->get('submit')->setAttributes(['class' => 'btn btn-outline-success'])->setValue('Сохранить');
+
+$form->prepare();
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Редактирование события</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <?php echo $this->form()->openTag($form); ?>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('id')); ?>
+      <?php echo $this->formElement($form->get('id')); ?>
+      <?php echo $this->formElementErrors($form->get('id')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('name')); ?>
+      <?php echo $this->formElement($form->get('name')); ?>
+      <?php echo $this->formElementErrors($form->get('name')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('date_begin')); ?><br/>
+      <?php echo $this->formElement($form->get('date_begin')); ?>
+      <?php echo $this->formElementErrors($form->get('date_begin')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('date_end')); ?><br/>
+      <?php echo $this->formElement($form->get('date_end')); ?>
+      <?php echo $this->formElementErrors($form->get('date_end')); ?>
+    </div>
+
+    <?php echo $this->formElement($form->get('csrf')); ?>
+
+    <?php echo $this->formElement($form->get('submit')); ?>
+    <a href="<?= $this->url('event', ['action' => 'index']) ?>" class="btn btn-link">Отмена</a>
+
+    <?php echo $this->form()->closeTag(); ?>
+  </div>
+</div>

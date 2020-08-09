@@ -1,0 +1,66 @@
+<?php
+$this->headTitle('Билет #'. str_pad($ticket->getId(), 8, 0, STR_PAD_LEFT));
+
+//$this->mainMenu()->setActiveItemId('');
+
+?>
+<div class="row">
+  <div class="col-12">
+    <h2>Талон #<?php echo str_pad($ticket->getId(), 8, 0, STR_PAD_LEFT) ?></h2>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <tr>
+    <td>ФИО:</td>
+    <td><b><?php echo $ticket->getLastName() .' '. $ticket->getFirstName(); ?></b></td>
+  </tr>
+  <tr>
+    <td>Город:</td>
+    <td><b><?php echo $ticket->getCity(); ?></b></td>
+  </tr>
+  <tr>
+    <td>Телефон:</td>
+    <td><b><?php echo $ticket->getPhone(); ?></b></td>
+  </tr>
+  <tr>
+    <td>Заказ:</td>
+    <td><b><?php echo $ticket->getOnumber(); ?></b></td>
+  </tr>
+  <tr>
+    <td>Статус:</td>
+    <td>
+      <?php
+      if (1 == $ticketManager->getTicketUsed($ticket->getId())) {
+        echo '<span style="color: green; font-weight: bold;">Билет выдан '. date('d.m.Y H:i:s', $ticketManager->getTicketUsedDate($ticket->getId())) .'</span>';
+      } else {
+        echo '<span style="color: red; font-weight: bold;">Билет не выдан</span>';
+      }
+      ?>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <?php if (1 != $ticketManager->getTicketUsed($ticket->getId())) { ?>
+        <form method="post" action="<?php echo $this->url('set'); ?>">
+          <input type="hidden" name="ticketId" value="<?php echo str_pad($ticket->getId(), 8, 0, STR_PAD_LEFT) ?>"/>
+          <input type="hidden" name="used" value="1"/>
+          <button type="submit" class="btn btn-outline-warning">
+            <span class="glyphicon glyphicon-ok"></span> Выдать талон
+          </button>
+        </form>
+      <?php } else { ?>
+        <form method="post" action="<?php echo $this->url('set'); ?>">
+          <input type="hidden" name="ticketId" value="<?php echo str_pad($ticket->getId(), 8, 0, STR_PAD_LEFT) ?>"/>
+          <input type="hidden" name="used" value="0"/>
+          <button type="submit" class="btn btn-outline-warning">
+            <span class="glyphicon glyphicon-ok"></span> Забрать талон
+          </button>
+        </form>
+      <?php } ?>
+    </td>
+    <td align="right">
+      <a href="#" class="btn btn-outline-success" onclick="$('#ticketView').dialog('close');">Отмена</a>
+    </td>
+  </tr>
+</table>

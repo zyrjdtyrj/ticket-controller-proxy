@@ -1,0 +1,103 @@
+<link href="/css/bootstrap-treeview.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/bootstrap-treeview.js"></script>
+<?php
+$this->headTitle('Добавление роли');
+
+$this->mainMenu()->setActiveItemId('admin');
+
+$form->get('name')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите наименование роли'
+]);
+
+$form->get('description')->setAttributes([
+  'class' => 'form-control',
+  'placeholder' => 'Введите описание роли'
+]);
+
+$form->get('parent')->setAttributes([
+  'class' => 'form-control',
+]);
+
+$form->get('submit')->setAttributes(['class' => 'btn btn-outline-success']);
+
+$form->prepare();
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Добавление новой роли</h1>
+    </div>
+  </div>
+</div>
+
+<p>
+  Пожалуйста заполните поля и нажмите кнопку <i>Создать</i>.
+</p>
+
+<div class="row">
+  <div class="col-md-6">
+    <?php echo $this->form()->openTag($form); ?>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('name')); ?>
+      <?php echo $this->formElement($form->get('name')); ?>
+      <?php echo $this->formElementErrors($form->get('name')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('description')); ?>
+      <?php echo $this->formElement($form->get('description')); ?>
+      <?php echo $this->formElementErrors($form->get('description')); ?>
+    </div>
+
+    <div class="form-group">
+      <?php echo $this->formLabel($form->get('parent')); ?>
+      <?php echo $this->formElement($form->get('parent')); ?>
+      <?php echo $this->formElementErrors($form->get('parent')); ?>
+
+
+    <div id="treeRole" style="display: none;"></div>
+    </div>
+
+    <?php echo $this->formElement($form->get('csrf')); ?>
+
+    <?php echo $this->formElement($form->get('submit')); ?>
+    <a href="<?= $this->url('roles') ?>" class="btn btn-link">Отмена</a>
+
+    <?php echo $this->form()->closeTag(); ?>
+  </div>
+</div>
+
+<script type="text/javascript">
+  jQuery(function() {
+    jQuery('#treeRole').treeview({
+      data: getTree()
+    });
+  });
+
+  function getTree() {
+    var data = [
+      {
+        text: 'Guest',
+        state: {
+          expanded: false
+        },
+        nodes: [
+          {
+            text: 'User'
+          },
+          {
+            text: 'Administrator'
+          }
+        ]
+      }
+    ];
+    return data;
+  }
+</script>
+
+
+
+

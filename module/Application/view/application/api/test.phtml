@@ -1,0 +1,707 @@
+<?php
+$this->headTitle('API');
+
+$this->mainMenu()->setActiveItemId('api');
+
+?>
+<style>
+  .methodList, .serverResult {
+    display: none;
+  }
+  pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; max-height: 400px;  }
+  .string { color: green; }
+  .number { color: darkorange; }
+  .boolean { color: blue; }
+  .null { color: magenta; }
+  .key { color: red; }
+</style>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h2>API</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <div class="card border-secondary mb-3">
+      <div class="card-header">
+        МЕТОДЫ API
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <a href="#" class="method" data-method="checkStatus"><b>CheckStatus</b></a>
+              </td>
+              <td>
+                Проверка соединения и отклика сервера
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="method" data-method="getEvents"><b>GetEvents</b></a>
+              </td>
+              <td>
+                Получение списка событий
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="method" data-method="getDevices"><b>GetDevices</b></a>
+              </td>
+              <td>
+                Получение списка устройств
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="method" data-method="getTickets"><b>GetTickets</b></a>
+              </td>
+              <td>
+                Получение списка билетов
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="method" data-method="getModifiedTickets"><b>GetModifiedTickets</b></a>
+              </td>
+              <td>
+                Получение изменённых билетов
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="method" data-method="getTicketsInfo"><b>GetTicketsInfo</b></a>
+              </td>
+              <td>
+                Получение подробной информации о билете (билетах)
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="method" data-method="setTicket"><b>SetTicket</b></a>
+              </td>
+              <td>
+                Изменение статуса билета
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="method" data-method="synTickets"><b>SynTickets</b></a>
+              </td>
+              <td>
+                Синхронизация билетов
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card border-secondary mb-3 methodList" id="checkStatus">
+      <div class="card-header">
+        Параметры метода <b>CheckStatus</b>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <b>Device:</b>
+              </td>
+              <td>
+                <input type="text" name="device" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Time:</b>
+              </td>
+              <td>
+                <input type="text" name="time" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: right;">
+            <a href="#" class="btn btn-outline-info" onclick="checkStatus(); return false;">Послать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-secondary mb-3 methodList" id="getEvents">
+      <div class="card-header">
+        Параметры метода <b>GetEvents</b>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <b>Device:</b>
+              </td>
+              <td>
+                <input type="text" name="device" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Time:</b>
+              </td>
+              <td>
+                <input type="text" name="time" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: right;">
+            <a href="#" class="btn btn-outline-info" onclick="getEvents(); return false;">Послать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-secondary mb-3 methodList" id="getDevices">
+      <div class="card-header">
+        Параметры метода <b>GetDevices</b>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <b>Device:</b>
+              </td>
+              <td>
+                <input type="text" name="device" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Event:</b>
+              </td>
+              <td>
+                <input type="text" name="event" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Time:</b>
+              </td>
+              <td>
+                <input type="text" name="time" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: right;">
+            <a href="#" class="btn btn-outline-info" onclick="getDevices(); return false;">Послать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-secondary mb-3 methodList" id="getTickets">
+      <div class="card-header">
+        Параметры метода <b>GetTickets</b>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <b>Device:</b>
+              </td>
+              <td>
+                <input type="text" name="device" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Event:</b>
+              </td>
+              <td>
+                <input type="text" name="event" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Time:</b>
+              </td>
+              <td>
+                <input type="text" name="time" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tickets:
+              </td>
+              <td>
+                <input type="text" name="tickets" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: right;">
+            <a href="#" class="btn btn-outline-info" onclick="getTickets(); return false;">Послать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-secondary mb-3 methodList" id="getModifiedTickets">
+      <div class="card-header">
+        Параметры метода <b>GetModifiedTickets</b>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <b>Device:</b>
+              </td>
+              <td>
+                <input type="text" name="device" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Event:</b>
+              </td>
+              <td>
+                <input type="text" name="event" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Time:</b>
+              </td>
+              <td>
+                <input type="text" name="time" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                TimeModifiedFrom:
+              </td>
+              <td>
+                <input type="text" name="timeModifiedFrom" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: right;">
+            <a href="#" class="btn btn-outline-info" onclick="getModifiedTickets(); return false;">Послать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-secondary mb-3 methodList" id="getTicketsInfo">
+      <div class="card-header">
+        Параметры метода <b>GetTicketsInfo</b>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <b>Device:</b>
+              </td>
+              <td>
+                <input type="text" name="device" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Event:</b>
+              </td>
+              <td>
+                <input type="text" name="event" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Time:</b>
+              </td>
+              <td>
+                <input type="text" name="time" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tickets:
+              </td>
+              <td>
+                <input type="text" name="ticket" size="30" value=""/>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: right;">
+            <a href="#" class="btn btn-outline-info" onclick="getTicketsInfo(); return false;">Послать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-secondary mb-3 methodList" id="setTicket">
+      <div class="card-header">
+        Параметры метода <b>setTicket</b>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <b>Device:</b>
+              </td>
+              <td>
+                <input type="text" name="device" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Event:</b>
+              </td>
+              <td>
+                <input type="text" name="event" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Time:</b>
+              </td>
+              <td>
+                <input type="text" name="time" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Ticket:</b>
+              </td>
+              <td>
+                <input type="text" name="ticket" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Status:</b>
+              </td>
+              <td>
+                <select name="status" class="form-control">
+                  <option>checkin</option>
+                  <option>checkout</option>
+                  <option>cancel</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                DeviceIP:
+              </td>
+              <td>
+                <input type="text" name="deviceIp" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: right;">
+            <a href="#" class="btn btn-outline-info" onclick="setTicket(); return false;">Послать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-secondary mb-3 methodList" id="synTickets">
+      <div class="card-header">
+        Параметры метода <b>synTickets</b>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <table class="table table-striped">
+            <tr>
+              <td>
+                <b>Device:</b>
+              </td>
+              <td>
+                <input type="text" name="device" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Event:</b>
+              </td>
+              <td>
+                <input type="text" name="event" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Time:</b>
+              </td>
+              <td>
+                <input type="text" name="time" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>TimeSynFrom:</b>
+              </td>
+              <td>
+                <input type="text" name="timeSynFrom" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Post:</b>
+              </td>
+              <td>
+                <input type="text" name="post" size="30" value="" class="form-control"/>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: right;">
+            <a href="#" class="btn btn-outline-info" onclick="synTickets(); return false;">Послать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-secondary mb-3 serverResult">
+      <div class="card-header">
+        Ответ сервера
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <pre id="serverResult"></pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('.method').on('click', function() {
+      let method = $(this).data('method');
+
+      $('.methodList').hide();
+      $('.serverResult').hide();
+
+      $('#'+ method).show();
+
+      let date = new Date();
+      $('input[name=time]:visible').val(date.toISOString());
+
+      return false;
+    });
+  });
+
+  function checkStatus() {
+    let method  = 'CheckStatus';
+    let device  = $('input[name=device]:visible').val();
+    let time    = $('input[name=time]:visible').val();
+
+    $.post(
+      '/apitest/exec',
+      {
+        Method: method,
+        Device: device,
+        Time:   time
+      },
+      function (result) {
+        $('.serverResult').show();
+        $('#serverResult').html(syntaxHighlight(JSON.stringify(JSON.parse(result),null,2)));
+      },
+      'html'
+    );
+  }
+
+  function getEvents() {
+    let method  = 'GetEvents';
+    let device  = $('input[name=device]:visible').val();
+    let time    = $('input[name=time]:visible').val();
+
+    $.post(
+      '/apitest/exec',
+      {
+        Method: method,
+        Device: device,
+        Time:   time
+      },
+      function (result) {
+        $('.serverResult').show();
+        $('#serverResult').html(syntaxHighlight(JSON.stringify(JSON.parse(result),null,2)));
+      },
+      'html'
+    );
+  }
+
+  function getDevices() {
+    let method  = 'GetDevices';
+    let device  = $('input[name=device]:visible').val();
+    let event   = $('input[name=event]:visible').val();
+    let time    = $('input[name=time]:visible').val();
+
+    $.post(
+      '/apitest/exec',
+      {
+        Method: method,
+        Device: device,
+        Event:  event,
+        Time:   time
+      },
+      function (result) {
+        $('.serverResult').show();
+        $('#serverResult').html(syntaxHighlight(JSON.stringify(JSON.parse(result),null,2)));
+      },
+      'html'
+    );
+  }
+
+  function getTickets() {
+    let method  = 'GetTickets';
+    let device  = $('input[name=device]:visible').val();
+    let event   = $('input[name=event]:visible').val();
+    let time    = $('input[name=time]:visible').val();
+    let tickets = $('input[name=tickets]:visible').val();
+
+    $.post(
+      '/apitest/exec',
+      {
+        Method:   method,
+        Device:   device,
+        Event:    event,
+        Time:     time,
+        Tickets:  tickets
+      },
+      function (result) {
+        $('.serverResult').show();
+        $('#serverResult').html(syntaxHighlight(JSON.stringify(JSON.parse(result),null,2)));
+      },
+      'html'
+    );
+  }
+
+  function getModifiedTickets() {
+    let method            = 'GetModifiedTickets';
+    let device            = $('input[name=device]:visible').val();
+    let event             = $('input[name=event]:visible').val();
+    let time              = $('input[name=time]:visible').val();
+    let timeModifiedFrom  = $('input[name=timeModifiedFrom]:visible').val();
+
+    $.post(
+      '/apitest/exec',
+      {
+        Method:           method,
+        Device:           device,
+        Event:            event,
+        Time:             time,
+        TimeModifiedFrom: timeModifiedFrom
+      },
+      function (result) {
+        $('.serverResult').show();
+        $('#serverResult').html(syntaxHighlight(JSON.stringify(JSON.parse(result),null,2)));
+      },
+      'html'
+    );
+  }
+
+  function getTicketsInfo() {
+    let method  = 'GetTicketsInfo';
+    let device  = $('input[name=device]:visible').val();
+    let event   = $('input[name=event]:visible').val();
+    let time    = $('input[name=time]:visible').val();
+    let ticket = $('input[name=ticket]:visible').val();
+
+    $.post(
+      '/apitest/exec',
+      {
+        Method:   method,
+        Device:   device,
+        Event:    event,
+        Time:     time,
+        Ticket:   ticket
+      },
+      function (result) {
+        $('.serverResult').show();
+        $('#serverResult').html(syntaxHighlight(JSON.stringify(JSON.parse(result),null,2)));
+      },
+      'html'
+    );
+  }
+
+  function setTicket() {
+    let method    = 'setTicket';
+    let device    = $('input[name=device]:visible').val();
+    let event     = $('input[name=event]:visible').val();
+    let time      = $('input[name=time]:visible').val();
+    let ticket    = $('input[name=ticket]:visible').val();
+    let status    = $('input[name=status]:visible').val();
+    let deviceIp  = $('input[name=deviceIp]:visible').val();
+
+    $.post(
+      '/apitest/exec',
+      {
+        Method:   method,
+        Device:   device,
+        Event:    event,
+        Time:     time,
+        Ticket:   ticket,
+        Status:   status,
+        DeviceIP: deviceIp
+      },
+      function (result) {
+        $('.serverResult').show();
+        $('#serverResult').html(syntaxHighlight(JSON.stringify(JSON.parse(result),null,2)));
+      },
+      'html'
+    );
+  }
+
+  function synTickets() {
+    let method      = 'synTickets';
+    let device      = $('input[name=device]:visible').val();
+    let event       = $('input[name=event]:visible').val();
+    let time        = $('input[name=time]:visible').val();
+    let timeSynFrom = $('input[name=timeSynFrom]:visible').val();
+    let post        = $('input[name=post]:visible').val();
+
+    $.post(
+      '/apitest/exec',
+      {
+        Method:       method,
+        Device:       device,
+        Event:        event,
+        Time:         time,
+        TimeSynFrom:  timeSynFrom,
+        Post:         post
+      },
+      function (result) {
+        $('.serverResult').show();
+        $('#serverResult').html(syntaxHighlight(JSON.stringify(JSON.parse(result),null,2)));
+      },
+      'html'
+    );
+  }
+
+  function syntaxHighlight(json) {
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+      var cls = 'number';
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) {
+          cls = 'key';
+        } else {
+          cls = 'string';
+        }
+      } else if (/true|false/.test(match)) {
+        cls = 'boolean';
+      } else if (/null/.test(match)) {
+        cls = 'null';
+      }
+      return '<span class="' + cls + '">' + match + '</span>';
+    });
+  }
+</script>

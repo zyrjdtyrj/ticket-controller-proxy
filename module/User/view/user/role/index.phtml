@@ -1,0 +1,68 @@
+<?php
+$this->headTitle('Роли');
+
+$this->mainMenu()->setActiveItemId('admin');
+
+?>
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+      <h1>Роли</h1>
+    </div>
+  </div>
+</div>
+
+<?= $this->flashMessenger()->render('error', ['alert', 'alert-warning']); ?>
+<?= $this->flashMessenger()->render('success', ['alert', 'alert-success']); ?>
+<?= $this->flashMessenger()->render('info', ['alert', 'alert-info']); ?>
+
+<p>
+  <a class="btn btn-outline-success" href="
+    <?= $this->url('roles', ['action' => 'add']); ?>">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Новая роль
+  </a>
+</p>
+
+<table class="table table-striped">
+  <tr>
+    <th>ID</th>
+    <th>Наименование</th>
+    <th>Описание</th>
+    <th>Дата создания</th>
+    <th></th>
+  </tr>
+
+  <?php foreach ($roles as $role): ?>
+
+    <tr>
+      <td><?= $this->escapeHtml($role->getId()); ?></td>
+      <td>
+        <a href="<?= $this->url('roles', ['action' => 'view', 'id' => $role->getId()]); ?>">
+          <?= $this->escapeHtml($role->getName()); ?>
+        </a>
+      </td>
+      <td><?= $this->escapeHtml($role->getDescription()); ?></a>
+      </td>
+      <td>
+        <nobr><?= $this->escapeHtml($role->getDateCreated()); ?></nobr>
+      </td>
+      <td>
+        <nobr>
+        <a class="btn btn-outline-warning" href="<?= $this->url('roles', ['action' => 'edit', 'id' => $role->getId()]); ?>" onclick="if(confirm('Вы действительно хотите редактировать роль?')) { return true } else { return false }">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+        <a class="btn btn-outline-danger" href="<?= $this->url('roles', ['action' => 'delete', 'id' => $role->getId()]); ?>" onclick="if(confirm('Вы действительно хотите удалить роль?')) { return true } else { return false }">
+          <span class="glyphicon glyphicon-remove"></span>
+        </a>
+        </nobr>
+      </td>
+    </tr>
+
+  <?php endforeach; ?>
+
+</table>
+
+
+
+
